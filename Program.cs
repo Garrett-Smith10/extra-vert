@@ -8,7 +8,43 @@ List<Plant> plants = new List<Plant>()
         AskingPrice = 11.50M,
         City = "Nashville",
         ZIP = 37135,
-        Sold = true
+        Sold = false
+    },
+    new Plant()
+    {
+        Species = "White Oak",
+        LightNeeds =  4,
+        AskingPrice = 16.50M,
+        City = "Chattanooga",
+        ZIP = 35209,
+        Sold = false
+    },
+    new Plant()
+    {
+        Species = "Maple",
+        LightNeeds =  1,
+        AskingPrice = 18.29M,
+        City = "Birmingham",
+        ZIP = 35208,
+        Sold = false
+    },
+    new Plant()
+    {
+        Species = "Spruce",
+        LightNeeds =  3,
+        AskingPrice = 10.55M,
+        City = "Knoxville",
+        ZIP = 37154,
+        Sold = false
+    },
+    new Plant()
+    {
+        Species = "Willow",
+        LightNeeds =  5,
+        AskingPrice = 9.54M,
+        City = "Decatur",
+        ZIP = 32054,
+        Sold = false
     }
 };
 
@@ -23,41 +59,38 @@ while (choice != "0")
 {
     Console.WriteLine(@"Choose an option:
                         0. Exit
-                        1. View All Plants
-                        2. View Plant Details");
+                        a. Display all plants
+                        b. Post a plant to be adopted
+                        c. Adopt a plant
+                        d. Delist a plant");
     choice = Console.ReadLine();
+    Console.ReadKey();
+    Console.Clear();
+
     if (choice == "0")
     {
+        Console.WriteLine("The Program is Ending Now.");
         Console.WriteLine("Goodbye!");
     }
-    else if (choice == "1")
+    else if (choice == "a")
     {
         ListPlants();
     }
-}
-
-Plant chosenPlant = null;
-
-while (chosenPlant == null)
-{
-    Console.WriteLine("Please enter a plant number: ");
-    try
+    else if (choice == "b")
     {
-    int response = int.Parse(Console.ReadLine().Trim());
-    chosenPlant = plants[response - 1];
+        throw new NotImplementedException("Display all plants");
     }
-    catch (FormatException)
+    else if (choice == "c")
     {
-    Console.WriteLine("Please type only integers!");
+        throw new NotImplementedException("Display all plants");
     }
-    catch (ArgumentOutOfRangeException)
+    else if (choice == "d")
     {
-    Console.WriteLine("Please choose an existing item only!");
+        throw new NotImplementedException("Display all plants");
     }
-    catch (Exception ex)
+    else
     {
-    Console.WriteLine(ex);
-    Console.WriteLine("Do Better!");
+        Console.WriteLine("Invalid input. Please select a valid option.");
     }
 }
 
@@ -70,6 +103,12 @@ void ListPlants()
         {
             totalValue += plant.AskingPrice;
         }
+    }
+    Console.WriteLine($"Total inventory value: ${totalValue}");
+    Console.WriteLine("Plants:");
+    for (int i = 0; i < plants.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {plants[i].Species}");
     }
  }
 
