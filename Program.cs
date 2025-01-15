@@ -12,38 +12,14 @@ List<Plant> plants = new List<Plant>()
     }
 };
 
-Plant chosenPlant = null;
-
-while (chosenPlant == null)
-{
-    Console.WriteLine("Please enter a product number: ");
-    try
-    {
-    int response = int.Parse(Console.ReadLine().Trim());
-    chosenProduct = products[response - 1];
-    }
-    catch (FormatException)
-    {
-    Console.WriteLine("Please type only integers!");
-    }
-    catch (ArgumentOutOfRangeException)
-    {
-    Console.WriteLine("Please choose an existing item only!");
-    }
-    catch (Exception ex)
-    {
-    Console.WriteLine(ex);
-    Console.WriteLine("Do Better!");
-    }
-}
 
 
  
 string greeting = @"Hello there, Welcome to ExtraVert!";
 
- Console.WriteLine(greeting);
+Console.WriteLine(greeting);
 string choice = null;
- while (choice != "0")
+while (choice != "0")
 {
     Console.WriteLine(@"Choose an option:
                         0. Exit
@@ -60,6 +36,30 @@ string choice = null;
     }
 }
 
+Plant chosenPlant = null;
+
+while (chosenPlant == null)
+{
+    Console.WriteLine("Please enter a plant number: ");
+    try
+    {
+    int response = int.Parse(Console.ReadLine().Trim());
+    chosenPlant = plants[response - 1];
+    }
+    catch (FormatException)
+    {
+    Console.WriteLine("Please type only integers!");
+    }
+    catch (ArgumentOutOfRangeException)
+    {
+    Console.WriteLine("Please choose an existing item only!");
+    }
+    catch (Exception ex)
+    {
+    Console.WriteLine(ex);
+    Console.WriteLine("Do Better!");
+    }
+}
 
 void ListPlants()
  {
