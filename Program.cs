@@ -78,7 +78,7 @@ while (choice != "0")
     }
     else if (choice == "b")
     {
-        throw new NotImplementedException("Display all plants");
+        PostPlant();
     }
     else if (choice == "c")
     {
@@ -108,8 +108,139 @@ void ListPlants()
     Console.WriteLine("Plants:");
     for (int i = 0; i < plants.Count; i++)
     {
-        Console.WriteLine($"{i + 1}. {plants[i].Species} in {plants[i].City} {(plants[i].Sold ? "is available " : $"was sold for {plants[i].AskingPrice}")}");
+        Console.WriteLine($"{i + 1}. {plants[i].Species} in {plants[i].City}" +
+         $"{(plants[i].Sold ? " is available" : $" was sold for ${plants[i].AskingPrice}")}");
     }
  }
+
+void PostPlant()
+{
+    Console.WriteLine("Post a new plant for adoption:");
+
+    Console.WriteLine("Enter Species: ");
+    string species = Console.ReadLine();
+
+    int lightNeeds;
+    while (true)
+    {
+        try
+        {
+            Console.WriteLine("Enter light needs (1-5, 1 = Low, 5 = High: ");
+            lightNeeds = int.Parse(Console.ReadLine().Trim());
+
+            if (lightNeeds < 1 || lightNeeds > 5)
+            {
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 5");
+            }
+            else
+            {
+                break; //Valid input, exit loop
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid number.");
+        }
+        catch (OverflowException)
+        {
+            Console.WriteLine("Invalid input. The number is too large or too small.");
+        }
+    }
+    Console.WriteLine("Enter asking price: ");
+    decimal askingPrice;
+    while (true)
+    {
+        try
+        {
+            Console.Write("Enter asking price (must be a positive value): ");
+            askingPrice = decimal.Parse(Console.ReadLine().Trim());
+
+            if (askingPrice <= 0)
+            {
+                Console.WriteLine("Invalid input. The price must be a positive value.");
+            }
+            else 
+            {
+                break;
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid decimal number.");
+        }
+        catch (OverflowException)
+        {
+            Console.WriteLine("Invalid input. The number is too large or too small.");
+        }
+    }
+    string city;
+
+    while (true)
+    {
+        Console.WriteLine("Enter city: ");
+        city = Console.ReadLine().Trim();
+
+        bool isValidCity = true;
+
+        foreach (char c in city) 
+        {
+            if (!char.IsLetter(c))
+            {
+                isValidCity = false;
+                break;
+            }
+        }
+        
+        if (isValidCity && !string.IsNullOrWhiteSpace(city))
+        {
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Only letter are allowed, and the city name cannot be empty.");
+        }
+
+    }
+    
+    int zipCode;
+
+    while (true)
+    {
+        try
+        {
+            Console.WriteLine("Enter ZIP code: ");
+            string zipCodeInput = (Console.ReadLine().Trim());
+
+            if (string.IsNullOrEmpty(zipCodeInput) || zipCodeInput.Length != 5)
+            {
+                Console.WriteLine("Please enter a valid ZIP code (5 digits long).");
+            }
+            else
+            {
+                zipCode = int.Parse(zipCodeInput);
+                break;
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Please enter a valid ZIP code (only numbers).");
+        }
+    }
+
+    Plant newPlant = new Plant()
+    {
+        Species = species,
+        LightNeeds = lightNeeds,
+        AskingPrice = askingPrice,
+        City = city,
+        ZIP = zipCode,
+        Sold = true
+    };
+
+    plants.Add(newPlant);
+
+    Console.WriteLine($"Successfully added {species} to the list!");
+}
+
 
 
