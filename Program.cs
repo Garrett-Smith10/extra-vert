@@ -35,7 +35,7 @@ List<Plant> plants = new List<Plant>()
         AskingPrice = 10.55M,
         City = "Knoxville",
         ZIP = 37154,
-        Sold = false
+        Sold = true
     },
     new Plant()
     {
@@ -108,7 +108,7 @@ void ListPlants()
     Console.WriteLine("Plants:");
     for (int i = 0; i < plants.Count; i++)
     {
-        Console.WriteLine($"{i + 1}. {plants[i].Species}");
+        Console.WriteLine($"{i + 1}. {plants[i].Species} in {plants[i].City} {(plants[i].Sold ? "is available " : $"was sold for {plants[i].AskingPrice}")}");
     }
  }
 
