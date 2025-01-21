@@ -82,7 +82,7 @@ while (choice != "0")
     }
     else if (choice == "c")
     {
-        throw new NotImplementedException("Display all plants");
+        AdoptPlant();
     }
     else if (choice == "d")
     {
@@ -109,7 +109,7 @@ void ListPlants()
     for (int i = 0; i < plants.Count; i++)
     {
         Console.WriteLine($"{i + 1}. {plants[i].Species} in {plants[i].City}" +
-         $"{(plants[i].Sold ? " is available" : $" was sold for ${plants[i].AskingPrice}")}");
+         (plants[i].Sold ? $" was sold for ${plants[i].AskingPrice}" : " is available"));
     }
  }
 
@@ -234,7 +234,7 @@ void PostPlant()
         AskingPrice = askingPrice,
         City = city,
         ZIP = zipCode,
-        Sold = true
+        Sold = false
     };
 
     plants.Add(newPlant);
@@ -242,5 +242,67 @@ void PostPlant()
     Console.WriteLine($"Successfully added {species} to the list!");
 }
 
+void AdoptPlant()
+{
+    List<Plant> availablePlants = new List<Plant>();
+
+    foreach (Plant plant in plants)
+    {
+        if (!plant.Sold)
+        {
+            availablePlants.Add(plant);
+        }
+    }
+
+    if (availablePlants.Count == 0)
+    {
+        Console.WriteLine("No plants are available for adoption at the moment");
+        return;
+    }
+
+    Console.WriteLine("Available plants for adoption: ");
+    for (int i = 0; i < availablePlants.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {availablePlants[i].Species} in {availablePlants[i].City}" + 
+        $" - ${availablePlants[i].AskingPrice}");
+    }
+
+    Plant chosenPlant = null;
+
+    while (chosenPlant == null)
+    {
+        Console.WriteLine("Please enter the plant # you would like to adopt: ");
+        try
+        {
+            int response =int.Parse(Console.ReadLine().Trim());
+        
+            if (response > 0 && response <= availablePlants.Count)
+            {
+                chosenPlant = availablePlants[response - 1];
+                chosenPlant.Sold = true;
+                Console.WriteLine($"Congratulations! You have adopted: {chosenPlant.Species} from {chosenPlant.City}");
+            }
+            else
+            {
+                Console.WriteLine("Please choose and existing item only!");
+            }
+        }
+
+        catch (FormatException)
+        {
+            Console.WriteLine("Please type only integers!.");
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            Console.WriteLine("Please choose an existing item only!");
+        }
+        catch (Exception ex)
+        {
+        Console.WriteLine(ex);
+        Console.WriteLine("Do Better!");
+        }
+    }
+
+}
 
 
