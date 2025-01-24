@@ -62,7 +62,8 @@ while (choice != "0")
                         b. Post a plant to be adopted
                         c. Adopt a plant
                         d. Delist a plant
-                        e. Plant of the day");
+                        e. Search for Plants by Light Needs
+                        f. Plant of the day");
     choice = Console.ReadLine();
     Console.WriteLine("(Press any key to continue.)");
     Console.ReadKey();
@@ -90,6 +91,10 @@ while (choice != "0")
         DelistPlant();
     }
     else if (choice == "e")
+    {
+        SearchPlantsByLightNeeds();
+    }
+    else if (choice == "f")
     {
         PlantOfTheDay();
     }
@@ -379,4 +384,55 @@ void PlantOfTheDay()
     Console.WriteLine($"Location: {randomPlant.City}");
     Console.WriteLine($"Light Needs: {randomPlant.LightNeeds}");
     Console.WriteLine($"Price: ${randomPlant.AskingPrice}");
+}
+
+void SearchPlantsByLightNeeds()
+{
+    int maxLightNeeds = 0;
+    bool validInput = false;
+
+    while (!validInput)
+    {
+        try
+        {
+            Console.WriteLine("Enter the maximum light needs (1 to 5): ");
+            maxLightNeeds = int.Parse(Console.ReadLine().Trim());
+
+            if (maxLightNeeds >= 1 && maxLightNeeds <= 5)
+            {
+                validInput = true; // Valid input
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid number between 1 and 5.");
+        }
+    }
+
+    List<Plant> matchingPlants = new List<Plant>();
+
+    foreach (Plant plant in plants)
+    {
+        if (plant.LightNeeds <= maxLightNeeds && !plant.Sold)
+        {
+            matchingPlants.Add(plant);
+        }
+    }
+
+    if (matchingPlants.Count > 0)
+    {
+        Console.WriteLine("Plants matching your light needs:");
+        foreach (Plant plant in matchingPlants) // Change this line to iterate over matchingPlants
+        {
+            Console.WriteLine($"{plant.Species} - Light Needs: {plant.LightNeeds} - Price: ${plant.AskingPrice}");
+        }
+    }
+    else
+    {
+        Console.WriteLine("No plants found that match your light needs.");
+    }
 }
