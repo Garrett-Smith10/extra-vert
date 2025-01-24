@@ -86,7 +86,7 @@ while (choice != "0")
     }
     else if (choice == "d")
     {
-        throw new NotImplementedException("Display all plants");
+        DelistPlant();
     }
     else
     {
@@ -271,7 +271,7 @@ void AdoptPlant()
 
     while (chosenPlant == null)
     {
-        Console.WriteLine("Please enter the plant # you would like to adopt: ");
+        Console.WriteLine("Please enter the plant # you would like to adopt or press 0 to return to the menu: ");
         try
         {
             int response =int.Parse(Console.ReadLine().Trim());
@@ -281,6 +281,10 @@ void AdoptPlant()
                 chosenPlant = availablePlants[response - 1];
                 chosenPlant.Sold = true;
                 Console.WriteLine($"Congratulations! You have adopted: {chosenPlant.Species} from {chosenPlant.City}");
+            }
+            else if (response == 0)
+            {
+                return;
             }
             else
             {
@@ -305,4 +309,45 @@ void AdoptPlant()
 
 }
 
-Console.WriteLine("Commit for the Day");
+void DelistPlant()
+{
+    ListPlants();
+
+    if (plants.Count == 0)
+    {
+        Console.WriteLine("No plants available to delist.");
+        return;
+    }
+
+
+    while (true)
+    {
+        Console.WriteLine("Enter the number of the plant you want to delist: ");
+        try
+        {
+            int response = int.Parse(Console.ReadLine().Trim());
+
+            if(response > 0 && response <= plants.Count)
+            {
+                var removedPlant = plants[response - 1];
+                plants.RemoveAt(response - 1);
+                Console.WriteLine($"{removedPlant.Species} has been successfully delisted.");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Please choose a valid plant number.");
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid input. Please enter a number.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+        }
+    }
+}
+
+
