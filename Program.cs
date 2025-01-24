@@ -48,9 +48,8 @@ List<Plant> plants = new List<Plant>()
     }
 };
 
+Random random = new Random();
 
-
- 
 string greeting = @"Hello there, Welcome to ExtraVert!";
 
 Console.WriteLine(greeting);
@@ -62,8 +61,10 @@ while (choice != "0")
                         a. Display all plants
                         b. Post a plant to be adopted
                         c. Adopt a plant
-                        d. Delist a plant");
+                        d. Delist a plant
+                        e. Plant of the day");
     choice = Console.ReadLine();
+    Console.WriteLine("(Press any key to continue.)");
     Console.ReadKey();
     Console.Clear();
 
@@ -87,6 +88,10 @@ while (choice != "0")
     else if (choice == "d")
     {
         DelistPlant();
+    }
+    else if (choice == "e")
+    {
+        PlantOfTheDay();
     }
     else
     {
@@ -350,4 +355,28 @@ void DelistPlant()
     }
 }
 
+void PlantOfTheDay()
+{
+    if (plants.Count == 0)
+    {
+        Console.WriteLine("No plants available.");
+        return;
+    }
 
+    Plant randomPlant = null;
+
+    while (randomPlant == null)
+    {
+        int randomIndex = random.Next(0, plants.Count);
+        if (!plants[randomIndex].Sold)
+        {
+            randomPlant = plants[randomIndex];
+        }
+    }
+
+    Console.WriteLine("🌱 Featured Plant 🌱");
+    Console.WriteLine($"Species: {randomPlant.Species}");
+    Console.WriteLine($"Location: {randomPlant.City}");
+    Console.WriteLine($"Light Needs: {randomPlant.LightNeeds}");
+    Console.WriteLine($"Price: ${randomPlant.AskingPrice}");
+}
