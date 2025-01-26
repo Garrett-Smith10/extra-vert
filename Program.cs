@@ -436,3 +436,5 @@ void SearchPlantsByLightNeeds()
         Console.WriteLine("No plants found that match your light needs.");
     }
 }
+
+Console.WriteLine("Commit for the Day");
